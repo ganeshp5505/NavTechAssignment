@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NavAssignmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NavAssignmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="customerId" />
@@ -115,6 +115,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetCustomerOrderItemList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetCustomerOrderList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="NavAssignmentModelStoreContainer">
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderItems" EntityType="Self.OrderItems" Schema="dbo" store:Type="Tables" />
@@ -133,8 +135,7 @@
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NavAssignmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -271,7 +272,35 @@
             <End Role="Products" EntitySet="Products" />
             <End Role="OrderItems" EntitySet="OrderItems" />
           </AssociationSet>
+          <FunctionImport Name="GetCustomerOrderItemList" ReturnType="Collection(NavAssignmentModel.GetCustomerOrderItemList_Result)" />
+          <FunctionImport Name="GetCustomerOrderList" ReturnType="Collection(NavAssignmentModel.GetCustomerOrderList_Result)" />
         </EntityContainer>
+        <ComplexType Name="GetCustomerOrderItemList_Result">
+          <Property Type="Int32" Name="customerId" Nullable="false" />
+          <Property Type="String" Name="customername" Nullable="true" MaxLength="256" />
+          <Property Type="Int32" Name="orderId" Nullable="false" />
+          <Property Type="DateTime" Name="deliveryDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="deliveryType" Nullable="true" MaxLength="256" />
+          <Property Type="Double" Name="GrandTotal" Nullable="true" />
+          <Property Type="Int32" Name="noofItems" Nullable="true" />
+          <Property Type="String" Name="PaymentType" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="emailId" Nullable="true" MaxLength="256" />
+          <Property Type="DateTime" Name="OrderDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="createdDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="GetCustomerOrderList_Result">
+          <Property Type="Int32" Name="customerId" Nullable="false" />
+          <Property Type="String" Name="customername" Nullable="true" MaxLength="256" />
+          <Property Type="Int32" Name="orderId" Nullable="false" />
+          <Property Type="DateTime" Name="deliveryDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="deliveryType" Nullable="true" MaxLength="256" />
+          <Property Type="Double" Name="GrandTotal" Nullable="true" />
+          <Property Type="Int32" Name="noofItems" Nullable="true" />
+          <Property Type="String" Name="PaymentType" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="emailId" Nullable="true" MaxLength="256" />
+          <Property Type="DateTime" Name="OrderDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="createdDate" Nullable="true" Precision="23" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -356,6 +385,40 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetCustomerOrderItemList" FunctionName="NavAssignmentModel.Store.GetCustomerOrderItemList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NavAssignmentModel.GetCustomerOrderItemList_Result">
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="customername" ColumnName="customername" />
+                <ScalarProperty Name="orderId" ColumnName="orderId" />
+                <ScalarProperty Name="deliveryDate" ColumnName="deliveryDate" />
+                <ScalarProperty Name="deliveryType" ColumnName="deliveryType" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="noofItems" ColumnName="noofItems" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="emailId" ColumnName="emailId" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCustomerOrderList" FunctionName="NavAssignmentModel.Store.GetCustomerOrderList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NavAssignmentModel.GetCustomerOrderList_Result">
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="customername" ColumnName="customername" />
+                <ScalarProperty Name="orderId" ColumnName="orderId" />
+                <ScalarProperty Name="deliveryDate" ColumnName="deliveryDate" />
+                <ScalarProperty Name="deliveryType" ColumnName="deliveryType" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="noofItems" ColumnName="noofItems" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="emailId" ColumnName="emailId" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

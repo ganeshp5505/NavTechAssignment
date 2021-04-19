@@ -12,6 +12,8 @@ namespace Assignment.DAL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class NavAssignmentEntities : DbContext
     {
@@ -29,5 +31,15 @@ namespace Assignment.DAL
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+    
+        public virtual ObjectResult<GetCustomerOrderItemList_Result> GetCustomerOrderItemList()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCustomerOrderItemList_Result>("GetCustomerOrderItemList");
+        }
+    
+        public virtual ObjectResult<GetCustomerOrderList_Result> GetCustomerOrderList()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCustomerOrderList_Result>("GetCustomerOrderList");
+        }
     }
 }
