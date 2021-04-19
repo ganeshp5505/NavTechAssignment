@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NavAssignmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="customerId" />
+    </Key>
+    <Property Name="customerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="customername" Type="varchar" MaxLength="256" />
+    <Property Name="mobileNumber" Type="varchar" MaxLength="256" />
+    <Property Name="emailId" Type="varchar" MaxLength="256" />
+    <Property Name="gender" Type="bit" />
+    <Property Name="customerAddress" Type="varchar" MaxLength="256" />
+    <Property Name="isStatus" Type="bit" />
+    <Property Name="createdDate" Type="datetime" />
+    <Property Name="updatedDate" Type="datetime" />
+    <Property Name="createdUserBy" Type="varchar" MaxLength="256" />
+    <Property Name="updatedUserBy" Type="varchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="OrderItems">
+    <Key>
+      <PropertyRef Name="ItemID" />
+    </Key>
+    <Property Name="ItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderID" Type="int" />
+    <Property Name="productId" Type="int" />
+    <Property Name="itemPrice" Type="float" />
+    <Property Name="ItemQuantity" Type="int" />
+    <Property Name="DiscountAmount" Type="float" />
+    <Property Name="GrandTotal" Type="float" />
+    <Property Name="Remarks" Type="varchar" MaxLength="200" />
+    <Property Name="isStatus" Type="bit" />
+    <Property Name="createdDate" Type="datetime" />
+    <Property Name="updatedDate" Type="datetime" />
+    <Property Name="createdUserBy" Type="varchar" MaxLength="256" />
+    <Property Name="updatedUserBy" Type="varchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="orderId" />
+    </Key>
+    <Property Name="orderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="int" />
+    <Property Name="OrderDate" Type="datetime" />
+    <Property Name="OrderType" Type="varchar" MaxLength="256" />
+    <Property Name="TotalAmount" Type="float" />
+    <Property Name="DiscountAmount" Type="float" />
+    <Property Name="GrandTotal" Type="float" />
+    <Property Name="PaymentType" Type="varchar" MaxLength="256" />
+    <Property Name="PaymentDate" Type="datetime" />
+    <Property Name="deliveryDate" Type="datetime" />
+    <Property Name="noofItems" Type="int" />
+    <Property Name="deliveryType" Type="varchar" MaxLength="256" />
+    <Property Name="isStatus" Type="bit" />
+    <Property Name="createdDate" Type="datetime" />
+    <Property Name="updatedDate" Type="datetime" />
+    <Property Name="createdUserBy" Type="varchar" MaxLength="256" />
+    <Property Name="updatedUserBy" Type="varchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="productId" />
+    </Key>
+    <Property Name="productId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productName" Type="varchar" MaxLength="256" />
+    <Property Name="code" Type="varchar" MaxLength="256" />
+    <Property Name="productDescription" Type="varchar" MaxLength="256" />
+    <Property Name="stocksLeft" Type="int" />
+    <Property Name="stockQuantity" Type="int" />
+    <Property Name="actualPrice" Type="float" />
+    <Property Name="offeredPrice" Type="float" />
+    <Property Name="isStatus" Type="bit" />
+    <Property Name="createdDate" Type="datetime" />
+    <Property Name="updatedDate" Type="datetime" />
+    <Property Name="createdUserBy" Type="varchar" MaxLength="256" />
+    <Property Name="updatedUserBy" Type="varchar" MaxLength="256" />
+  </EntityType>
+  <Association Name="FK__OrderItem__Order__2B3F6F97">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+    <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="orderId" />
+      </Principal>
+      <Dependent Role="OrderItems">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderItem__produ__2C3393D0">
+    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+    <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="productId" />
+      </Principal>
+      <Dependent Role="OrderItems">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__Customer__286302EC">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="customerId" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="NavAssignmentModelStoreContainer">
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderItems" EntityType="Self.OrderItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__OrderItem__Order__2B3F6F97" Association="Self.FK__OrderItem__Order__2B3F6F97">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderItems" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderItem__produ__2C3393D0" Association="Self.FK__OrderItem__produ__2C3393D0">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="OrderItems" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__Customer__286302EC" Association="Self.FK__Orders__Customer__286302EC">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NavAssignmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="customerId" />
+          </Key>
+          <Property Name="customerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customername" Type="varchar" MaxLength="256" />
+          <Property Name="mobileNumber" Type="varchar" MaxLength="256" />
+          <Property Name="emailId" Type="varchar" MaxLength="256" />
+          <Property Name="gender" Type="bit" />
+          <Property Name="customerAddress" Type="varchar" MaxLength="256" />
+          <Property Name="isStatus" Type="bit" />
+          <Property Name="createdDate" Type="datetime" />
+          <Property Name="updatedDate" Type="datetime" />
+          <Property Name="createdUserBy" Type="varchar" MaxLength="256" />
+          <Property Name="updatedUserBy" Type="varchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="OrderItems">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderID" Type="int" />
+          <Property Name="productId" Type="int" />
+          <Property Name="itemPrice" Type="float" />
+          <Property Name="ItemQuantity" Type="int" />
+          <Property Name="DiscountAmount" Type="float" />
+          <Property Name="GrandTotal" Type="float" />
+          <Property Name="Remarks" Type="varchar" MaxLength="200" />
+          <Property Name="isStatus" Type="bit" />
+          <Property Name="createdDate" Type="datetime" />
+          <Property Name="updatedDate" Type="datetime" />
+          <Property Name="createdUserBy" Type="varchar" MaxLength="256" />
+          <Property Name="updatedUserBy" Type="varchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="orderId" />
+          </Key>
+          <Property Name="orderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="OrderType" Type="varchar" MaxLength="256" />
+          <Property Name="TotalAmount" Type="float" />
+          <Property Name="DiscountAmount" Type="float" />
+          <Property Name="GrandTotal" Type="float" />
+          <Property Name="PaymentType" Type="varchar" MaxLength="256" />
+          <Property Name="PaymentDate" Type="datetime" />
+          <Property Name="deliveryDate" Type="datetime" />
+          <Property Name="noofItems" Type="int" />
+          <Property Name="deliveryType" Type="varchar" MaxLength="256" />
+          <Property Name="isStatus" Type="bit" />
+          <Property Name="createdDate" Type="datetime" />
+          <Property Name="updatedDate" Type="datetime" />
+          <Property Name="createdUserBy" Type="varchar" MaxLength="256" />
+          <Property Name="updatedUserBy" Type="varchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productName" Type="varchar" MaxLength="256" />
+          <Property Name="code" Type="varchar" MaxLength="256" />
+          <Property Name="productDescription" Type="varchar" MaxLength="256" />
+          <Property Name="stocksLeft" Type="int" />
+          <Property Name="stockQuantity" Type="int" />
+          <Property Name="actualPrice" Type="float" />
+          <Property Name="offeredPrice" Type="float" />
+          <Property Name="isStatus" Type="bit" />
+          <Property Name="createdDate" Type="datetime" />
+          <Property Name="updatedDate" Type="datetime" />
+          <Property Name="createdUserBy" Type="varchar" MaxLength="256" />
+          <Property Name="updatedUserBy" Type="varchar" MaxLength="256" />
+        </EntityType>
+        <Association Name="FK__OrderItem__Order__2B3F6F97">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="orderId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__produ__2C3393D0">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Customer__286302EC">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="customerId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NavAssignmentModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderItems" EntityType="Self.OrderItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__OrderItem__Order__2B3F6F97" Association="Self.FK__OrderItem__Order__2B3F6F97">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__produ__2C3393D0" Association="Self.FK__OrderItem__produ__2C3393D0">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Customer__286302EC" Association="Self.FK__Orders__Customer__286302EC">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NavAssignmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="customerId" />
+          </Key>
+          <Property Name="customerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customername" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="mobileNumber" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="emailId" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="Boolean" />
+          <Property Name="customerAddress" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="isStatus" Type="Boolean" />
+          <Property Name="createdDate" Type="DateTime" Precision="3" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <Property Name="createdUserBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="updatedUserBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Customer__286302EC" FromRole="Customer" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" />
+          <Property Name="productId" Type="Int32" />
+          <Property Name="itemPrice" Type="Double" />
+          <Property Name="ItemQuantity" Type="Int32" />
+          <Property Name="DiscountAmount" Type="Double" />
+          <Property Name="GrandTotal" Type="Double" />
+          <Property Name="Remarks" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="isStatus" Type="Boolean" />
+          <Property Name="createdDate" Type="DateTime" Precision="3" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <Property Name="createdUserBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="updatedUserBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order" Relationship="Self.FK__OrderItem__Order__2B3F6F97" FromRole="OrderItems" ToRole="Orders" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__OrderItem__produ__2C3393D0" FromRole="OrderItems" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="orderId" />
+          </Key>
+          <Property Name="orderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="OrderType" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="TotalAmount" Type="Double" />
+          <Property Name="DiscountAmount" Type="Double" />
+          <Property Name="GrandTotal" Type="Double" />
+          <Property Name="PaymentType" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+          <Property Name="deliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="noofItems" Type="Int32" />
+          <Property Name="deliveryType" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="isStatus" Type="Boolean" />
+          <Property Name="createdDate" Type="DateTime" Precision="3" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <Property Name="createdUserBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="updatedUserBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Orders__Customer__286302EC" FromRole="Orders" ToRole="Customer" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK__OrderItem__Order__2B3F6F97" FromRole="Orders" ToRole="OrderItems" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="code" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="productDescription" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="stocksLeft" Type="Int32" />
+          <Property Name="stockQuantity" Type="Int32" />
+          <Property Name="actualPrice" Type="Double" />
+          <Property Name="offeredPrice" Type="Double" />
+          <Property Name="isStatus" Type="Boolean" />
+          <Property Name="createdDate" Type="DateTime" Precision="3" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <Property Name="createdUserBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="updatedUserBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK__OrderItem__produ__2C3393D0" FromRole="Products" ToRole="OrderItems" />
+        </EntityType>
+        <Association Name="FK__Orders__Customer__286302EC">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="customerId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Order__2B3F6F97">
+          <End Role="Orders" Type="Self.Order" Multiplicity="0..1" />
+          <End Role="OrderItems" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="orderId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__produ__2C3393D0">
+          <End Role="Products" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="OrderItems" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NavAssignmentEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="OrderItems" EntityType="Self.OrderItem" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <AssociationSet Name="FK__Orders__Customer__286302EC" Association="Self.FK__Orders__Customer__286302EC">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Order__2B3F6F97" Association="Self.FK__OrderItem__Order__2B3F6F97">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__produ__2C3393D0" Association="Self.FK__OrderItem__produ__2C3393D0">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NavAssignmentModelStoreContainer" CdmEntityContainer="NavAssignmentEntities">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="NavAssignmentModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="customername" ColumnName="customername" />
+                <ScalarProperty Name="mobileNumber" ColumnName="mobileNumber" />
+                <ScalarProperty Name="emailId" ColumnName="emailId" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="customerAddress" ColumnName="customerAddress" />
+                <ScalarProperty Name="isStatus" ColumnName="isStatus" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="createdUserBy" ColumnName="createdUserBy" />
+                <ScalarProperty Name="updatedUserBy" ColumnName="updatedUserBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderItems">
+            <EntityTypeMapping TypeName="NavAssignmentModel.OrderItem">
+              <MappingFragment StoreEntitySet="OrderItems">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="itemPrice" ColumnName="itemPrice" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="isStatus" ColumnName="isStatus" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="createdUserBy" ColumnName="createdUserBy" />
+                <ScalarProperty Name="updatedUserBy" ColumnName="updatedUserBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="NavAssignmentModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="orderId" ColumnName="orderId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="deliveryDate" ColumnName="deliveryDate" />
+                <ScalarProperty Name="noofItems" ColumnName="noofItems" />
+                <ScalarProperty Name="deliveryType" ColumnName="deliveryType" />
+                <ScalarProperty Name="isStatus" ColumnName="isStatus" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="createdUserBy" ColumnName="createdUserBy" />
+                <ScalarProperty Name="updatedUserBy" ColumnName="updatedUserBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="NavAssignmentModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="productDescription" ColumnName="productDescription" />
+                <ScalarProperty Name="stocksLeft" ColumnName="stocksLeft" />
+                <ScalarProperty Name="stockQuantity" ColumnName="stockQuantity" />
+                <ScalarProperty Name="actualPrice" ColumnName="actualPrice" />
+                <ScalarProperty Name="offeredPrice" ColumnName="offeredPrice" />
+                <ScalarProperty Name="isStatus" ColumnName="isStatus" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="createdUserBy" ColumnName="createdUserBy" />
+                <ScalarProperty Name="updatedUserBy" ColumnName="updatedUserBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
