@@ -15,9 +15,17 @@ namespace Assignment.BLL
             {
                 using (NavAssignmentEntities db = new NavAssignmentEntities())
                 {
-                    //Product cus = db.Products.Where(m => m.productId == obj.id).FirstOrDefault();
-                    //cus.isStatus = false;
-                    //db.SaveChanges();
+                    Order orderObj = new Order();
+                    orderObj.CustomerId = obj.CustomerId;
+                    orderObj.OrderType = obj.OrderType;
+                    orderObj.PaymentType = obj.PaymentType;
+                    orderObj.GrandTotal = obj.GrandTotal;
+                    orderObj.deliveryDate = obj.deliveryDate;
+                    orderObj.isStatus = true;
+                    orderObj.createdDate = orderObj.updatedDate = DateTime.Now;
+                    orderObj.noofItems = obj.noofItems;
+                    db.Orders.Add(orderObj);
+                    db.SaveChanges();
                     return "Ok";
                 }
             }

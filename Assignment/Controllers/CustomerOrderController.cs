@@ -30,5 +30,22 @@ namespace Assignment.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, "Successfull");
         }
+
+        public HttpResponseMessage GetCustomerOrderList()
+        {
+            try
+            {
+                using (NavAssignmentEntities db = new NavAssignmentEntities())
+                {
+                    var checkingData = db.GetCustomerOrderList().ToList();
+                    
+                    return Request.CreateResponse(HttpStatusCode.OK, checkingData);
+                }
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Somthing went wrong");
+            }
+        }
     }
 }

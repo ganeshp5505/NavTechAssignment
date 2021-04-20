@@ -133,5 +133,33 @@
       <End Role="Products" EntitySet="Products" />
       <End Role="OrderItems" EntitySet="OrderItems" />
     </AssociationSet>
+    <FunctionImport Name="GetCustomerOrderItemList" ReturnType="Collection(NavAssignmentModel.GetCustomerOrderItemList_Result)" />
+    <FunctionImport Name="GetCustomerOrderList" ReturnType="Collection(NavAssignmentModel.GetCustomerOrderList_Result)" />
   </EntityContainer>
+  <ComplexType Name="GetCustomerOrderItemList_Result">
+    <Property Type="Int32" Name="customerId" Nullable="false" />
+    <Property Type="String" Name="customername" Nullable="true" MaxLength="256" />
+    <Property Type="Int32" Name="orderId" Nullable="false" />
+    <Property Type="DateTime" Name="deliveryDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="deliveryType" Nullable="true" MaxLength="256" />
+    <Property Type="Double" Name="GrandTotal" Nullable="true" />
+    <Property Type="Int32" Name="noofItems" Nullable="true" />
+    <Property Type="String" Name="PaymentType" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="emailId" Nullable="true" MaxLength="256" />
+    <Property Type="DateTime" Name="OrderDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="createdDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GetCustomerOrderList_Result">
+    <Property Type="Int32" Name="customerId" Nullable="false" />
+    <Property Type="String" Name="customername" Nullable="true" MaxLength="256" />
+    <Property Type="Int32" Name="orderId" Nullable="false" />
+    <Property Type="DateTime" Name="deliveryDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="deliveryType" Nullable="true" MaxLength="256" />
+    <Property Type="Double" Name="GrandTotal" Nullable="true" />
+    <Property Type="Int32" Name="noofItems" Nullable="true" />
+    <Property Type="String" Name="PaymentType" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="emailId" Nullable="true" MaxLength="256" />
+    <Property Type="DateTime" Name="OrderDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="createdDate" Nullable="true" Precision="23" />
+  </ComplexType>
 </Schema>

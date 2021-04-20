@@ -173,17 +173,26 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="BLL\CustomerOrder.cs" />
+    <Compile Include="BLL\CustomerOrderItem.cs" />
     <Compile Include="BLL\ICustomerOrder.cs" />
+    <Compile Include="BLL\ICustomerOrderItem.cs" />
     <Compile Include="BLL\IProduct.cs" />
     <Compile Include="BLL\IRegisterUsers.cs" />
     <Compile Include="BLL\ProductItems.cs" />
     <Compile Include="BLL\Register.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\CustomerOrderController.cs" />
+    <Compile Include="Controllers\CustomerOrderItemsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\Customer.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\GetCustomerOrderItemList_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\GetCustomerOrderList_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Model1.Context.cs">
@@ -213,6 +222,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerOrderItemViewModel.cs" />
     <Compile Include="Models\CustomerOrderViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
